@@ -1,0 +1,78 @@
+version: 0.2
+
+#env:
+  #variables:
+     #tf_template_folder: "main.tf"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+  #secrets-manager:
+     # key: secret-id:json-key:version-stage:version-id
+     # key: secret-id:json-key:version-stage:version-id
+  #exported-variables:
+     # - variable
+     # - variable
+  #git-credential-helper: yes
+#batch:
+  #fast-fail: true
+  #build-list:
+  #build-matrix:
+  #build-graph:
+phases:
+  install:
+    #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
+    #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
+    #runtime-versions:
+      # name: version
+      # name: version
+    commands:
+    # install terraform
+       #- sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+       #- sudo yum install -y yum-utils
+       #- sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+       #- sudo yum -y install terraform
+        - docker pull checkmarx/kics:latest
+       #- yum install golang -y
+       #- git clone https://github.com/Checkmarx/kics.git
+       #- cd kics
+    # install checkov
+  #pre_build:
+    #commands:
+      # - command
+      # - command
+  build:
+    commands:
+      - |
+        cat >verify.sh <<EOF
+        #!/usr/bin/env bash
+        docker run -v $(pwd):/path checkmarx/kics:latest scan -p "/path" -o "/path/" >> result.txt
+        cat result.txt
+        exit 0
+      - chmod 755 ./verify.sh
+      - ./verify.sh
+      # - docker run -v $(pwd):/path checkmarx/kics:latest scan -p "/path" -o "/path/"
+      # - docker run checkmarx/kics:latest bash -c "exit 1"
+      # - exit 1
+      # - go run ./kics/cmd/console/main.go scan -p . --report-formats json -o ./results
+  #post_build:
+    #commands:
+      # - command
+      # - command
+#reports:
+  #report-name-or-arn:
+    #files:
+      # - location
+      # - location
+    #base-directory: location
+    #discard-paths: yes
+    #file-format: JunitXml | CucumberJson
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
